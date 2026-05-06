@@ -1,0 +1,140 @@
+# 示例配置：复制为 config.yaml 后修改
+
+scanner:
+  root_dirs:
+    - "C:/Users/<your-name>/Desktop"   # 改为你的桌面路径
+  include_extensions: [".docx", ".doc", ".md", ".txt"]
+  exclude_dir_globs: []
+  exclude_file_globs:
+    - "~$*"         # Office 临时文件
+    - "desktop.ini"
+  max_files: null     # 可用于试跑，例如 200
+
+workflow:
+  # weekly-organize 优先读取这个目录列表；未配置时回退到 scanner.root_dirs
+  source_dirs:
+    - "C:/Users/<your-name>/Desktop"
+  docs_root: "./docs"   # 知识库文档归档目录
+  text_cache_dir: "./kb_out/text_cache"
+  trading_categories: ["交易系统与方法论", "交易心理与情绪", "交易复盘", "交易记录"]
+
+extractor:
+  libreoffice_soffice_path: "C:/path/to/libreoffice/program/soffice.exe"  # 改为你的 LibreOffice 路径
+  temp_dir: "./kb_out/tmp"
+
+sampler:
+  head_chars: 1000
+  mid_chars: 1000
+  tail_chars: 1000
+  random_segments: 3
+  random_segment_chars: 500
+  keyword_context_window: 200
+  max_keyword_contexts: 12
+  confidence_threshold: 0.75
+  deep_read_max_chars: 12000
+  keywords:
+    trading: ["交易", "复盘", "买入", "卖出", "止损", "仓位", "亏损", "盈利"]
+    emotion: ["情绪", "焦虑", "拖延", "执行力", "冲动", "恐惧", "贪婪"]
+    career: ["离职", "职业", "自由", "收入", "不确定性"]
+    ai: ["AI", "工具", "项目", "写作", "认知", "总结"]
+
+rules:
+  # 课程材料规则（根据你在 plan 里补充的偏好）：
+  # - 原始讲义/外部 slides：排除
+  # - 课程录音转写：默认待复核
+  # - 个人课程笔记：纳入
+  course_material:
+    enabled: true
+    exclude_if_name_contains: ["讲义", "slides", "slide", "ppt", "课件"]
+    review_if_name_contains: ["转写", "文稿", "meeting_"]
+    include_if_name_contains: ["笔记", "总结", "反思"]
+
+llm:
+  base_url: "https://api.deepseek.com"
+  model: "deepseek-v4-flash"
+  api_key_env: "DEEPSEEK_API_KEY"
+  prompt_template_path: "../deepseek_prompt.txt"  # 相对于 kb_tool/ 的路径
+  max_concurrency: 8
+  retries: 3
+  timeout_seconds: 60
+  temperature: 0.2
+  allow_send_snippets: true
+  max_snippet_chars: 14000
+  redact_paths: false
+
+storage:
+  output_dir: "./kb_out"
+  sqlite_path: "./kb_out/kb.sqlite3"
+  exports_dir: "./kb_out/exports"
+  dashboard_dir: "./kb_out/dashboard"
+  reports_dir: "./kb_out/reports"
+  logs_dir: "./kb_out/logs"
+
+report:
+  default_quarter: "2026-Q2"
+
+agent:
+  enabled: true
+  provider: "deepseek"
+  model: "deepseek-v4-flash"
+  max_steps: 6
+  max_tool_result_chars: 12000
+  audit_log: "./kb_out/logs/agent_audit.jsonl"
+  allow_write_reports: true
+  allow_source_file_write: false
+  allow_shell: false
+
+tools:
+  enabled:
+    - search_documents
+    - search_chunks
+    - get_document
+    - compare_periods
+    - summarize_month
+    - find_writing_candidates
+    - cluster_project_ideas
+    - generate_report
+
+permissions:
+  source_files:
+    read: true
+    write: false
+    move: false
+    delete: false
+    rename: false
+  output_dirs:
+    reports: "./kb_out/reports"
+    cache: "./kb_out/cache"
+    logs: "./kb_out/logs"
+
+mcp:
+  enabled: true
+  transport:
+    stdio: true
+    http: true
+    host: "127.0.0.1"
+    port: 8765
+  expose_resources: true
+  expose_prompts: true
+  enable_sampling: false
+  redact_source_paths: true
+  max_result_chars: 12000
+  max_documents_per_call: 20
+  max_chunks_per_call: 30
+  enabled_tools:
+    - kb.search_documents
+    - kb.search_chunks
+    - kb.get_document
+    - kb.compare_periods
+    - kb.summarize_month
+    - kb.find_writing_candidates
+    - kb.cluster_project_ideas
+  disabled_tools:
+    - kb.generate_report
+  audit_log: "./kb_out/logs/mcp_audit.jsonl"
+  permissions:
+    read_kb: true
+    read_source_files: false
+    write_reports: false
+    write_source_files: false
+    shell: false

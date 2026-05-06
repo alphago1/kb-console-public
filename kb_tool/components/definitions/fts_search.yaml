@@ -1,0 +1,24 @@
+# FTS5 全文检索定义
+# SQLite FTS5 关键词搜索引擎
+
+component_id: fts_search
+policy_version: v1
+
+engine: SQLite FTS5
+index: document_chunks_fts (BM25 排序)
+snippet: "snippet(document_chunks_fts, 0, '[', ']', ' ... ', 12)"
+
+capabilities:
+  - 关键词精确匹配（支持双引号短语查询）
+  - BM25 相关性排序
+  - 按月份/分类过滤
+  - 文件名 LIKE 双重命中
+
+limitations:
+  - 不支持语义相似度搜索
+  - 不支持跨语言同义词
+  - 中文分词依赖 FTS5 内置 tokenizer
+
+fallback:
+  - Agentic Search 作为语义级补充
+  - 多轮工具调用理解自然语言问题

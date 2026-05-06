@@ -1,0 +1,9 @@
+[theme]
+font = "Microsoft YaHei, sans-serif"
+baseFontSize = 14
+
+[server]
+maxUploadSize = 50
+
+[browser]
+gatherUsageStats = false

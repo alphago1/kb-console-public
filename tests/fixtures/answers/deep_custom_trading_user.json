@@ -1,0 +1,150 @@
+{
+  "session_id": "deep_custom_2026_05_05_001",
+  "user_id": "test_user_trading_focused",
+  "timestamp": "2026-05-05T10:00:00+08:00",
+  "answers": [
+    {
+      "question_id": "q001_primary_goal",
+      "question_text": "你使用知识库最想解决什么问题？",
+      "answer": "管理我的交易文档和 AI 学习笔记，能快速找到以前写过的思考和复盘，自动生成月度报告",
+      "confidence": 0.95
+    },
+    {
+      "question_id": "q002_core_scenarios",
+      "question_text": "你最常使用哪些场景？按使用频率排序。",
+      "answer": "1. 写交易复盘后自动归档 2. 搜索之前关于某个交易概念的思考 3. 每月自动生成交易月度报告 4. 浏览 AI 学习资料",
+      "confidence": 0.90
+    },
+    {
+      "question_id": "q003_core_domains",
+      "question_text": "你的文档主要涉及哪些领域？请按重要性排序。",
+      "answer": "最重要的是交易（包括交易复盘、交易系统方法论、交易心理），其次是 AI 与工具化（RAG、Agent、本地部署），偶尔写个人反思和随笔",
+      "confidence": 0.90
+    },
+    {
+      "question_id": "q004_corpus_scale",
+      "question_text": "你估计有多少篇文档？每月新增多少？",
+      "answer": "现有大概 200-300 篇文档，每月新增 15-20 篇，主要是交易复盘和 AI 学习笔记",
+      "confidence": 0.80
+    },
+    {
+      "question_id": "q005_maintenance_willingness",
+      "question_text": "你愿意花多少时间维护知识库？",
+      "answer": "不想花时间手动整理，希望 AI 自动处理分类和标签。但愿意花 10-15 分钟回答系统的问题来优化配置",
+      "confidence": 0.95
+    },
+    {
+      "question_id": "q006_current_workflow",
+      "question_text": "你现在怎么管理这些文档？",
+      "answer": "交易复盘放在一个文件夹，AI 笔记放在另一个文件夹，个人随笔比较乱。目前是用 Typora 写 markdown，然后手动放到对应文件夹",
+      "confidence": 0.85
+    },
+    {
+      "question_id": "q007_source_file_types",
+      "question_text": "你的文档主要是什么格式？",
+      "answer": "大部分是 markdown (.md)，少部分是 Word (.docx)，偶尔有纯文本 (.txt)。不用 PDF。",
+      "confidence": 0.95
+    },
+    {
+      "question_id": "q008_structure_preference",
+      "question_text": "你希望文档怎么组织？",
+      "answer": "按领域分大类（交易/AI/个人），每个领域下按主题细分。时间也重要，但不如主题重要",
+      "confidence": 0.85
+    },
+    {
+      "question_id": "q009_time_axis",
+      "question_text": "你回顾文档时，是按时间还是按主题？",
+      "answer": "复盘类按时间（按月看），方法论类按主题（按概念搜索），个人随笔按时间",
+      "confidence": 0.85
+    },
+    {
+      "question_id": "q010_trading_concepts",
+      "question_text": "在交易方面，你主要关注哪些具体概念？",
+      "answer": "最重要的四个：止损管理、仓位管理、入场策略、心理纪律。最近特别关注止损执行力和追高冲动的控制。还有复盘方法论也在持续迭代。",
+      "confidence": 0.90
+    },
+    {
+      "question_id": "q011_trading_concept_relationships",
+      "question_text": "这些交易概念之间有关联吗？",
+      "answer": "止损和仓位管理强相关——仓位大的时候止损就犹豫。心理纪律是所有执行的基础，心态不好止损和仓位都失控。追高冲动是心理纪律不达标的表现。",
+      "confidence": 0.85
+    },
+    {
+      "question_id": "q012_ai_concepts",
+      "question_text": "在 AI 方面，你主要关注哪些方向？",
+      "answer": "核心是 RAG（检索增强生成），包括文档处理、embedding、向量检索。也在看 Agent 相关的多轮工具调用。对本地部署方案特别感兴趣，因为注重隐私。",
+      "confidence": 0.85
+    },
+    {
+      "question_id": "q013_output_preferences",
+      "question_text": "你希望系统给你生成什么？",
+      "answer": "最需要月度报告（交易月报），然后是主题深度分析（比如专门分析止损相关文档），偶尔需要季度总结。不需要日报，太频繁了。",
+      "confidence": 0.90
+    },
+    {
+      "question_id": "q014_wiki_preference",
+      "question_text": "你希望系统有 Wiki 页面吗？你怎么看 Wiki？",
+      "answer": "可以让 AI 自动生成一些主题摘要，但我不想去维护。如果有自动生成的 wiki 页面可以偶尔浏览一下，但主要还是要能搜到原始文件。Wiki 是辅助，不是主要功能。",
+      "confidence": 0.90
+    },
+    {
+      "question_id": "q015_tag_preference",
+      "question_text": "你觉得给文档打标签有用吗？你愿意手动打标签吗？",
+      "answer": "标签很有用，能帮我从不同维度找到文档。但不想手动打标签，希望 AI 自动标注。如果可以的话，我想定义一些自己的标签体系，让 AI 按照我定义的体系来标注。",
+      "confidence": 0.90
+    },
+    {
+      "question_id": "q016_exclusion_preference",
+      "question_text": "有没有哪些文件不想被系统处理的？",
+      "answer": "工作相关的合同、模板、行政文档不需要。还有从网上下载的别人的文章，不是我写的，也不需要。只处理我自己写的文档。",
+      "confidence": 0.85
+    },
+    {
+      "question_id": "q017_query_patterns",
+      "question_text": "你平时怎么搜自己的文档？举个例子？",
+      "answer": "经常搜'止损 执行力 反思'这类组合，想看之前关于止损执行力的反思。或者搜'2026-03 复盘'看当月的所有复盘。有时候也搜技术概念比如'RAG embedding chunk'。",
+      "confidence": 0.80
+    },
+    {
+      "question_id": "q018_privacy_level",
+      "question_text": "你对隐私的要求是什么？",
+      "answer": "所有数据必须本地处理，不能上传到任何云服务。LLM 调用可以用本地部署的模型或者脱敏后的 API 调用，但原始文件不能离开本机。",
+      "confidence": 0.95
+    }
+  ],
+  "derived_tag_ontology": {
+    "domains": [
+      {
+        "name": "交易",
+        "priority": 1,
+        "concepts": ["止损管理", "仓位管理", "入场策略", "心理纪律", "复盘方法论", "追高冲动"],
+        "relations": [
+          {"from": "止损管理", "to": "仓位管理", "strength": "strong"},
+          {"from": "心理纪律", "to": "止损管理", "strength": "strong"},
+          {"from": "心理纪律", "to": "仓位管理", "strength": "strong"},
+          {"from": "追高冲动", "to": "心理纪律", "strength": "strong"},
+          {"from": "复盘方法论", "to": "止损管理", "strength": "medium"}
+        ]
+      },
+      {
+        "name": "AI与工具化",
+        "priority": 2,
+        "concepts": ["RAG", "Embedding", "Agent", "本地部署", "文档处理"],
+        "relations": [
+          {"from": "RAG", "to": "Embedding", "strength": "strong"},
+          {"from": "RAG", "to": "文档处理", "strength": "strong"},
+          {"from": "本地部署", "to": "RAG", "strength": "medium"}
+        ]
+      },
+      {
+        "name": "个人成长",
+        "priority": 3,
+        "concepts": ["反思", "习惯追踪", "年度目标"],
+        "relations": []
+      }
+    ],
+    "time_granularity": "monthly",
+    "document_types": ["复盘", "学习笔记", "项目想法", "个人反思", "草稿"],
+    "excluded_types": ["合同模板", "外部转载", "工作行政"]
+  }
+}

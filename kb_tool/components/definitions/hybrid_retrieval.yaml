@@ -1,0 +1,33 @@
+# 混合检索策略定义
+# FTS5 关键词 + Agentic Search 混合检索
+
+component_id: hybrid_retrieval
+policy_version: v1
+
+strategy: "keyword_first_then_agentic"
+
+phase1:
+  name: "FTS5 快速搜索"
+  tool: "find_idea / search_chunks"
+  timeout_ms: 100
+  purpose: "快速返回关键词匹配结果"
+
+phase2:
+  name: "Agentic 深度搜索"
+  tool: "Agent Runtime (7 tools × N 轮)"
+  trigger:
+    - "FTS5 结果为空"
+    - "用户查询包含自然语言问题"
+    - "跨时间对比类查询"
+  max_steps: 6
+  max_tool_result_chars: 12000
+
+weighting:
+  exact_match: 1.0
+  fts5_bm25: 0.8
+  filename_match: 0.6
+  agentic_result: 0.7
+
+future:
+  vector_search: "待评估（ChromaDB / sqlite-vec + bge-m3 Embedding）"
+  hybrid_rerank: "关键字 + 语义向量 → 混合重排序"

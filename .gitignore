@@ -1,0 +1,44 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Project: runtime output (personal data)
+kb_out/
+kb_tool/kb_out/
+
+# Project: user config (copy config.example.yaml → config.yaml)
+kb_tool/config.yaml
+
+# Project: LibreOffice
+libreoffice/
+
+# Claude AI
+.claude/
+
+# UI mockups (may contain screenshots)
+ui-mockup/
+
+# Scratch files
+plan*.txt
+wikiplan.txt
+*.bak

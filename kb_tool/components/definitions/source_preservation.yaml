@@ -1,0 +1,27 @@
+# 源文件保护策略定义
+# 确保用户原始文件安全，所有操作可逆
+
+component_id: source_preservation
+policy_version: v1
+
+principles:
+  - "源文件只读——所有操作在副本上进行"
+  - "原始路径记录在 source_path 字段，可随时回溯"
+  - "删除操作仅针对系统生成的输出文件，不动源文件"
+
+protections:
+  read: true
+  write: false
+  move: false
+  delete: false
+  rename: false
+
+fingerprint:
+  method: "SHA256 全文哈希"
+  purpose: "确定性去重 + 变更检测"
+  storage: "documents.fingerprint_sha256"
+
+audit:
+  - "每次文件处理记录 run_id + processed_at"
+  - "LLM 调用记录 task/model/prompt_chars/response_chars"
+  - "Agent/MCP 工具调用记录完整审计日志"

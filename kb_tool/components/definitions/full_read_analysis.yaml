@@ -1,0 +1,29 @@
+# Scoped Full-Read 分析定义
+# 对指定文件夹/分类进行全文打包和深度分析
+
+component_id: full_read_analysis
+policy_version: v1
+
+strategy:
+  single_read:
+    condition: "token_estimate_high <= 850000"
+    action: "全量读入，单次 LLM 分析"
+
+  category_batches:
+    condition: "850000 < token_estimate_high <= 1500000"
+    action: "按分类分批 LLM 压缩，最终合成"
+
+  monthly_batches:
+    condition: "token_estimate_high > 1500000"
+    action: "按月分批 LLM 压缩 + ThreadPoolExecutor 并发 + 最终合成"
+
+budget:
+  max_chars: 1000000
+  max_per_doc: 3000
+  compression_ratio: 0.3
+
+tools:
+  - build_folder_bundle: "构建文件夹全文 Bundle"
+  - analyze_folder: "对文件夹进行问答式分析"
+  - project_analyze: "对项目/主题进行深度分析"
+  - profile_me: "生成用户认知画像"

@@ -1,0 +1,49 @@
+# Karpathy Baseline — Index & Log 层定义
+# 索引与日志：可追溯的知识库操作记录
+
+component_id: index_log
+policy_version: v1
+
+indexes:
+  human_index:
+    enabled: true
+    human_facing: true
+    format: index.md
+    description: "全局索引，按 domain 分组，列出所有 topic/project/profile 页面"
+    fields:
+      - 页面名称
+      - 简要描述（一行）
+      - 最后更新时间
+      - 证据来源数量
+
+  topic_index:
+    enabled: true
+    human_facing: false
+    format: topic_index.json
+    description: "话题→页面→源文件的完整映射表，供 Agent 工具调用"
+
+logs:
+  update_log:
+    enabled: true
+    human_facing: true
+    format: update_log.md
+    description: "每次 AI 对 wiki 的修改记录"
+    fields:
+      - 时间戳
+      - 更新类型（新建/修改/合并/归档）
+      - 受影响页面
+      - 变更摘要
+      - 触发来源（新文件摄入/定期 review/用户反馈）
+
+  ingest_log:
+    enabled: true
+    human_facing: false
+    format: ingest_log.jsonl
+    description: "每次新文件摄入记录"
+    fields:
+      - 时间戳
+      - 文件名
+      - 文件路径
+      - 分类结果
+      - 分类置信度
+      - 提取字数

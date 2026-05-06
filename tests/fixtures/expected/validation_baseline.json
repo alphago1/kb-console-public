@@ -1,0 +1,5 @@
+{
+  "product_direction": "tag-first",
+  "wiki_role": "cache_layer",
+  "description": "Expected validation results for the tag-first test suite. All tests must pass without touching real user files or calling real LLM APIs."
+}

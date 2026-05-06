@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>个人知识库 Dashboard</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, "Microsoft YaHei", Arial, sans-serif; margin: 24px; color: #222; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; }
+    .k { color: #666; font-size: 12px; }
+    .v { font-size: 22px; font-weight: 700; }
+    h2 { margin-top: 28px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #e2e2e2; padding: 6px 8px; font-size: 12px; }
+    th { background: #f6f6f6; text-align: left; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .heat { text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>个人知识库 Dashboard</h1>
+  <p>
+    <a href="{{ review_link }}">复核队列</a> |
+    <a href="{{ search_link }}">检索入口</a> |
+    <a href="{{ report_link }}">季度报告</a>
+  </p>
+
+  <div class="grid">
+    <div class="card"><div class="k">总文件数</div><div class="v">{{ total }}</div></div>
+    <div class="card"><div class="k">纳入</div><div class="v">{{ included }}</div></div>
+    <div class="card"><div class="k">排除</div><div class="v">{{ excluded }}</div></div>
+    <div class="card"><div class="k">待复核</div><div class="v">{{ review }}</div></div>
+  </div>
+
+  <h2>按月份分布</h2>
+  <table>
+    <tr><th>月份</th><th>数量</th></tr>
+    {% for m, c in by_month %}
+    <tr><td>{{ m }}</td><td>{{ c }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>按一级分类分布（仅纳入）</h2>
+  <table>
+    <tr><th>分类</th><th>数量</th></tr>
+    {% for k, c in by_cat %}
+    <tr><td>{{ k }}</td><td>{{ c }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>月份 × 分类热力图（仅纳入）</h2>
+  {% set maxv = 0 %}
+  {% for m in months %}
+    {% for c in cats %}
+      {% set v = heat[m][c] %}
+      {% if v > maxv %}{% set maxv = v %}{% endif %}
+    {% endfor %}
+  {% endfor %}
+
+  <table>
+    <tr>
+      <th>月份</th>
+      {% for c in cats %}<th>{{ c }}</th>{% endfor %}
+    </tr>
+    {% for m in months %}
+    <tr>
+      <td>{{ m }}</td>
+      {% for c in cats %}
+        {% set v = heat[m][c] %}
+        {% set a = (v / maxv) if maxv else 0 %}
+        {% set shade = 245 - (a * 120) %}
+        <td class="heat" style="background: rgb({{ shade|int }}, {{ shade|int }}, {{ shade|int }});">{{ v if v else "" }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>交易相关趋势（按月）</h2>
+  <table>
+    <tr><th>月份</th><th>交易相关数量</th></tr>
+    {% for m, c in trade_trend %}
+    <tr><td>{{ m }}</td><td>{{ c }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>情绪标签趋势（每月 Top10）</h2>
+  <table>
+    <tr><th>月份</th><th>Top 情绪标签</th></tr>
+    {% for m, pairs in emotion_by_month.items() %}
+    <tr>
+      <td>{{ m }}</td>
+      <td>
+        {% for t, c in pairs %}
+          <span>{{ t }}({{ c }})</span>{% if not loop.last %}, {% endif %}
+        {% endfor %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>认知变化文档（最多 50）</h2>
+  <table>
+    <tr><th>月份</th><th>置信度</th><th>摘要</th><th>路径</th></tr>
+    {% for d in cognition_docs %}
+    <tr>
+      <td>{{ d.month }}</td>
+      <td>{{ '%.2f'|format(d.confidence) }}</td>
+      <td>{{ d.summary }}</td>
+      <td class="mono">{{ d.path }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>写作潜力高的文档（最多 50）</h2>
+  <table>
+    <tr><th>月份</th><th>潜力</th><th>置信度</th><th>摘要</th><th>路径</th></tr>
+    {% for d in writing_docs %}
+    <tr>
+      <td>{{ d.month }}</td>
+      <td>{{ d.writing_potential }}</td>
+      <td>{{ '%.2f'|format(d.confidence) }}</td>
+      <td>{{ d.summary }}</td>
+      <td class="mono">{{ d.path }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>反复出现的项目想法</h2>
+  <table>
+    <tr><th>Top 标签</th><th>次数</th></tr>
+    {% for t, c in project_tags %}
+    <tr><td>{{ t }}</td><td>{{ c }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>项目想法文档（最多 80）</h2>
+  <table>
+    <tr><th>月份</th><th>置信度</th><th>摘要</th><th>路径</th></tr>
+    {% for d in project_docs %}
+    <tr>
+      <td>{{ d.month }}</td>
+      <td>{{ '%.2f'|format(d.confidence) }}</td>
+      <td>{{ d.summary }}</td>
+      <td class="mono">{{ d.path }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>低置信度/待复核（最多 80）</h2>
+  <table>
+    <tr><th>月份</th><th>置信度</th><th>待复核</th><th>摘要</th><th>路径</th></tr>
+    {% for d in low_conf %}
+    <tr>
+      <td>{{ d.month }}</td>
+      <td>{{ '%.2f'|format(d.confidence) }}</td>
+      <td>{{ d.needs_review }}</td>
+      <td>{{ d.summary }}</td>
+      <td class="mono">{{ d.path }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+</body>
+</html>

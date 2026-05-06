@@ -1,0 +1,39 @@
+# Report-first 输出定义
+# 当用户主要消费报告而非浏览 wiki 页面时启用
+
+component_id: report_first_output
+policy_version: v1
+
+entry_point: reports
+wiki_role: "wiki 层降级为报告生成的后台数据源，不作为人类主入口"
+
+report_types:
+  weekly_summary:
+    frequency: weekly
+    description: "本周新入库文件摘要，按分类分组"
+    trigger: "每周整理完成后自动生成"
+
+  monthly_review:
+    frequency: monthly
+    description: "本月核心认知变化、新增规则、被证伪的旧规则"
+    trigger: "每月 1 日自动生成"
+
+  quarterly_evolution:
+    frequency: quarterly
+    description: "跨时间认知变化、长期趋势、信念验证/推翻"
+    trigger: "每季度初自动生成"
+
+  blind_spot_alert:
+    frequency: monthly
+    description: "知识盲区提示——应该关注但遗漏的话题"
+    trigger: "跟随月报一起生成"
+
+  profile_report:
+    frequency: quarterly
+    description: "个人认知画像更新"
+    trigger: "跟随季报一起生成"
+
+delivery:
+  format: Markdown
+  location: "kb_out/reports/{type}/{period}.md"
+  notification: "GUI 侧边栏 toast + 提示音"

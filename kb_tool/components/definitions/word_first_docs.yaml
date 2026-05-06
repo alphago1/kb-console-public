@@ -1,0 +1,29 @@
+# Word-first 文档处理定义
+# 本项目特有的 Word-first 文档迁移和兼容层
+
+component_id: word_first_docs
+policy_version: v1
+
+pipeline:
+  extract:
+    tool: LibreOffice soffice
+    formats: [".docx", ".doc"]
+    fallback: "python-docx 作为备选"
+  cache:
+    path: "kb_out/text_cache/{category}/{month}/"
+    format: ".txt (UTF-8)"
+  classify:
+    strategy: "规则优先 + LLM 补充"
+    rules: "分类规则在 classification_policy.yaml 中定义"
+    llm: "DeepSeek v4-flash（可替换）"
+
+migration:
+  source: "用户桌面 / 自定义文件夹"
+  target: "docs/{category}/{month}/{filename}_{sha8}.{ext}"
+  preserve_original: true
+  link_source_path: true
+
+compatibility_notes:
+  - "Word 文件不支持双链语法 → AI 生成产物使用 Markdown，源文件保持 Word 格式"
+  - "Word 文件无 frontmatter → 元数据存储在 SQLite documents 表中"
+  - "文件名中的 SHA256 前 8 位用于去重，同时保留原始文件名作为 stem"

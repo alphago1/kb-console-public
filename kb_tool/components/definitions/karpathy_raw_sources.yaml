@@ -1,0 +1,18 @@
+# Karpathy Baseline — Raw Sources 层定义
+# 原始资料层：只读保存，不修改用户源文件
+
+component_id: raw_sources.read_only_store
+policy_version: v1
+human_facing: false
+ai_facing: true
+
+rules:
+  - 源文件只读，不移动、不修改、不删除
+  - 通过 SHA256 全文指纹去重
+  - source_path 字段追踪原始文件位置
+  - 即使分类/标签变更，源文件路径不变
+
+exclusions:
+  - 临时文件（~$*、desktop.ini）
+  - 系统文件
+  - 用户明确排除的文件类型

@@ -1,0 +1,53 @@
+# Karpathy Baseline — Wiki Layer 定义
+# AI 维护的结构化知识页
+
+component_id: wiki_layer
+policy_version: v1
+
+pages:
+  topic_pages:
+    enabled: true
+    human_facing: true
+    description: "每个 core_domain 下的活跃话题自动生成 topic page"
+    structure:
+      - 定义与范围
+      - 关键观点（每条附 source 引用）
+      - 证据列表（来源文件 + 段落位置）
+      - 认知演化时间线
+      - 开放问题
+      - 相关 topic pages
+
+  project_pages:
+    enabled: true
+    human_facing: true
+    description: "每个 project 自动生成 project page"
+    structure:
+      - 项目目标
+      - 当前状态
+      - 关键里程碑
+      - 技术决策与理由
+      - 相关文档列表
+      - 开放风险
+
+  profile_pages:
+    enabled: true
+    human_facing: true
+    description: "用户认知画像，每季度由 AI 更新"
+    structure:
+      - 长期关注领域
+      - 决策模式
+      - 情绪/执行力模式
+      - 认知变化时间线
+      - 当前开放问题
+      - 写作倾向
+
+  cross_references:
+    enabled: true
+    human_facing: true
+    description: "Obsidian-style [[双链]] 跨页面引用"
+    syntax: "[[page_name]] 或 [[page_name|显示文本]]"
+
+  ai_wiki_cache:
+    enabled: true
+    human_facing: false
+    description: "AI 内部使用的压缩版 wiki 缓存，供 LLM 上下文消费"

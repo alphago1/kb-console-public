@@ -1,0 +1,31 @@
+# Karpathy Baseline — Lint 层定义
+# 质量检查：周期性体检知识库健康度
+
+component_id: lint
+policy_version: v1
+
+checks:
+  duplicate_topics:
+    frequency: monthly
+    description: "检查内容高度重叠的 topic pages"
+    threshold: "语义相似度 > 0.7 建议合并"
+    action: "生成合并建议，等待用户确认"
+
+  stale_viewpoints:
+    frequency: quarterly
+    description: "检查超过 N 个月未更新且与新证据矛盾的观点"
+    window: "最近 3 个月新文件 vs 现有 wiki 结论"
+    action: "标记可能过期的结论，生成过期报告"
+
+  orphan_pages:
+    frequency: monthly
+    description: "检查没有被引用且长期未更新的页面"
+    thresholds:
+      reference_count: 0
+      last_update: "3 个月"
+    action: "标记孤立页面，建议归档或删除"
+
+  sourceless_claims:
+    frequency: "每次 wiki 更新后"
+    description: "检查缺少 source 引用的结论性语句"
+    action: "标记所有缺少 `[source: ...]` 的结论，阻止发布"

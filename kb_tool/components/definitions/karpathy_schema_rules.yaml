@@ -1,0 +1,41 @@
+# Karpathy Baseline — Schema Rules 层定义
+# AI 行为规则：规范 AI 如何维护知识库
+
+component_id: schema_rules
+policy_version: v1
+
+rules:
+  update_policy:
+    description: "AI 何时以及如何更新 wiki 页面"
+    triggers:
+      - 新文件摄入后 → 检查受影响 topic → 增量更新
+      - 每月全量 review → 检查所有 topic page 是否与最新源文件一致
+      - 用户反馈 → 立即执行对应修改
+    constraints:
+      - 新证据与现有结论冲突时 → 标记而非覆盖
+      - 用户确认过的内容 → 不自动修改
+      - 低置信度推断 → 标注 [待验证]
+
+  naming_convention:
+    description: "wiki 页面命名规则"
+    patterns:
+      topic: "topic_{slug}.md"
+      project: "project_{slug}.md"
+      profile: "profile.md"
+      index: "index.md"
+    slug_rules:
+      - 中文转拼音或使用英文 slug
+      - 使用小写 + 下划线
+      - 长度不超过 64 字符
+
+  conflict_handling:
+    description: "AI 推断与用户明确表述冲突时的处理"
+    priority: "用户明确表述 > AI 推断"
+    strategy: "保留两者并标记，等待用户反馈"
+    never: "不自动覆盖用户确认过的内容"
+
+  source_tracking:
+    description: "每条结论必须可追溯到源文件"
+    format: "[source: {filename}#{chunk_index}]"
+    rule: "不支持无来源的 wiki 内容"
+    exception: "系统生成的元信息（如 index.md 中的统计）可无来源"
