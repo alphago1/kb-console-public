@@ -1,6 +1,6 @@
 # KB Console — Word-first 本地知识库管理系统
 
-![KB Console 本地知识库管理系统界面](ai知识库 ppt.png)
+![KB Console 本地知识库管理系统界面](ai知识库竖宣传图.png)
 
 将桌面随手记的 `.docx` / `.md` / `.txt` 自动分类、全文检索、AI 深度分析的个人知识库。
 
